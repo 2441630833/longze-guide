@@ -8,54 +8,15 @@
 
     <main class="demo-area">
       <section class="toolbar">
-        <button class="plus_guide" @click="showCreatePageDialog = true">＋ New Page</button>
-        <button class="import_guide" @click="showImportDialog = true">⇪ Import</button>
-        <button class="danger" @click="showDeleteDialog = true">🗑 Delete</button>
+        <button class="increment_btn" @click="increment">＋ Increment</button>
+        <button class="reset_btn" @click="resetCounter">↺ Reset</button>
       </section>
 
       <section class="content">
-        <div v-if="showCreatePageDialog" class="dialog create-page-dialog">
-          <h3>Create Page</h3>
-          <label>
-            Model
-            <select v-model="selectedPageModel">
-              <option value="apple">Apple</option>
-              <option value="banana">Banana</option>
-              <option value="orange">Orange</option>
-            </select>
-          </label>
-          <textarea v-model="pageDescription" placeholder="Describe your page..."></textarea>
-          <div class="dialog-actions">
-            <button @click="confirmCreatePage">Create</button>
-            <button @click="closeCreatePageDialog">Cancel</button>
-          </div>
-          <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-        </div>
-
-        <div v-if="showImportDialog" class="dialog import-dialog">
-          <h3>Import</h3>
-          <label>
-            Type
-            <select v-model="selectedImportType">
-              <option value="image">Image</option>
-              <option value="json">JSON</option>
-            </select>
-          </label>
-          <input type="file" multiple @change="onImportFiles">
-          <div class="dialog-actions">
-            <button @click="confirmImport">Import</button>
-            <button @click="closeImportDialog">Cancel</button>
-          </div>
-          <p v-if="importError" class="error">{{ importError }}</p>
-        </div>
-
-        <div v-if="showDeleteDialog" class="dialog delete-dialog">
-          <h3>Confirm Delete</h3>
-          <p>Are you sure you want to delete this item?</p>
-          <div class="dialog-actions">
-            <button class="danger" @click="confirmDelete">Delete</button>
-            <button @click="closeDeleteDialog">Cancel</button>
-          </div>
+        <div class="counter-card">
+          <h3>Counter</h3>
+          <p class="count-display">{{ count }}</p>
+          <p class="hint">Use the buttons above to change the value.</p>
         </div>
       </section>
     </main>
@@ -88,45 +49,31 @@ export default {
       guideTheme: 'dark',
       guideSteps: [
         {
-          target: '.plus_guide',
-          title: 'First Step',
-          content: 'Click the + button to add a new page to your project.',
+          target: '.increment_btn',
+          title: 'Increase the counter',
+          content: 'Click Increment to add 1 to the counter value.',
           position: 'bottom'
         },
         {
-          target: '.create-page-dialog',
-          title: 'Second Step',
-          content: 'Fill in details to create a new page for your project.',
+          target: '.count-display',
+          title: 'Current value',
+          content: 'This number updates every time you click Increment.',
           position: 'right'
         },
         {
-          target: '.import_guide',
-          title: 'Third Step',
-          content: 'Click Import to bring an existing page into your project.',
+          target: '.reset_btn',
+          title: 'Reset to zero',
+          content: 'Click Reset to set the counter back to 0.',
           position: 'right'
         }
       ],
 
-      // Demo dialogs/state
-      showCreatePageDialog: false,
-      selectedPageModel: 'apple',
-      pageDescription: '',
-      errorMessage: '',
-
-      showImportDialog: false,
-      importFileList: [],
-      importError: '',
-      selectedImportType: 'image',
-
-      showDeleteDialog: false
+      // Counter state
+      count: 0
     }
   },
   methods: {
     startGuide() {
-      // Ensure initial UI state for the walkthrough
-      this.showCreatePageDialog = false
-      this.showImportDialog = false
-      this.showDeleteDialog = false
       this.$refs.guide.start()
     },
 
@@ -137,26 +84,8 @@ export default {
     onGuideSkip() {
       this.showCustomToast('Already Skip Guide', 'none')
     },
-    onGuideStepChange(index) {
-      if (index === 1) {
-        this.showCreatePageDialog = true
-        this.pageDescription = ''
-        this.errorMessage = ''
-        this.selectedPageModel = 'apple'
-      } else if (index === 2) {
-        this.showCreatePageDialog = false
-      } else if (index === 3) {
-        this.showImportDialog = true
-        this.importFileList = []
-        this.importError = ''
-        this.selectedImportType = 'image'
-      } else if (index === 4) {
-        this.closeImportDialog()
-      } else if (index === 5) {
-        this.showDeleteDialog = true
-      } else if (index === 6) {
-        this.closeDeleteDialog()
-      }
+    onGuideStepChange() {
+      // No dynamic UI changes required for the counter walkthrough
     },
 
     // Demo helpers
@@ -166,41 +95,12 @@ export default {
       alert(`${type ? '[' + type + '] ' : ''}${message}`)
     },
 
-    closeCreatePageDialog() {
-      this.showCreatePageDialog = false
+    // Counter actions
+    increment() {
+      this.count += 1
     },
-    confirmCreatePage() {
-      if (!this.pageDescription.trim()) {
-        this.errorMessage = 'Description is required.'
-        return
-      }
-      this.errorMessage = ''
-      this.showCreatePageDialog = false
-      this.showCustomToast('Page created', 'success')
-    },
-
-    onImportFiles(event) {
-      this.importFileList = Array.from(event.target.files || [])
-    },
-    closeImportDialog() {
-      this.showImportDialog = false
-    },
-    confirmImport() {
-      if (this.importFileList.length === 0) {
-        this.importError = 'Please select at least one file.'
-        return
-      }
-      this.importError = ''
-      this.showImportDialog = false
-      this.showCustomToast('Import started', 'success')
-    },
-
-    closeDeleteDialog() {
-      this.showDeleteDialog = false
-    },
-    confirmDelete() {
-      this.showDeleteDialog = false
-      this.showCustomToast('Deleted', 'success')
+    resetCounter() {
+      this.count = 0
     }
   }
 }
@@ -247,14 +147,10 @@ export default {
   border-radius: 4px;
   cursor: pointer;
 }
-.toolbar .danger {
-  background: #ffe7e7;
-  color: #b00020;
-}
 .content {
   margin-top: 24px;
 }
-.dialog {
+.counter-card {
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 16px;
@@ -262,17 +158,14 @@ export default {
   background: #fff;
   box-shadow: 0 2px 8px rgba(0,0,0,.06);
 }
-.dialog h3 { margin: 0 0 12px; }
-.dialog textarea {
-  width: 100%;
-  min-height: 80px;
-  margin-top: 8px;
+.counter-card h3 { margin: 0 0 12px; }
+.count-display {
+  font-size: 40px;
+  margin: 8px 0 4px;
 }
-.dialog-actions {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-  margin-top: 12px;
+.hint {
+  color: #666;
+  margin: 0;
+  font-size: 12px;
 }
-.error { color: #b00020; }
 </style>

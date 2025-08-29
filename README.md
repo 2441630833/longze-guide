@@ -1,6 +1,6 @@
 # longze-guide
 
-A lightweight, flexible, and themeable in-app product tour/guide component for Vue 2.
+A lightweight, flexible, and themeable in-app product tour/guide component for Vue 2 and Vue 3.
 
 - **Zero dependency** and easy to drop into any Vue app
 - **Targets any element** using CSS selectors
@@ -16,26 +16,32 @@ npm install longze-guide
 yarn add longze-guide
 ```
 
+## Compatibility
+
+- Vue 3: Fully supported. Provides an `install(app)` function and works with `createApp`.
+- Vue 2: Supported by registering the component directly with `Vue.component('longze-guide', LongzeGuide)`.
+- API parity: Props and events are the same between Vue 2 and Vue 3 examples in this README.
+
 ## Registration
 
 Register the component globally or import locally.
 
+### Vue 2 (Global)
 ```js
-// Global (main.js)
+// main.js
 import Vue from 'vue'
 import LongzeGuide from 'longze-guide'
 
 Vue.component('longze-guide', LongzeGuide)
 ```
 
+### Local (Vue 2 or Vue 3)
 ```vue
-<!-- Local (inside a component) -->
 <script>
 import LongzeGuide from 'longze-guide'
 export default { components: { LongzeGuide } }
 </script>
 ```
-
 ## Quick Start
 
 Add a ref to the component, pass `steps`, then call `this.$refs.guide.start()`.
@@ -43,16 +49,20 @@ Add a ref to the component, pass `steps`, then call `this.$refs.guide.start()`.
 ```vue
 <template>
   <div>
-    <button class="plus_guide" @click="onPlus">＋ New Page</button>
-    <button class="import_guide" @click="onImport">⇪ Import</button>
+    <section class="toolbar">
+      <button class="increment_btn" @click="increment">＋ Increment</button>
+      <button class="reset_btn" @click="resetCounter">↺ Reset</button>
+    </section>
+
+    <p class="count-display">{{ count }}</p>
 
     <longze-guide
       ref="guide"
       :steps="guideSteps"
       :theme="guideTheme"
-      :primaryColor="'#e53935'"
-      :primaryHoverColor="'#d32f2f'"
-      :highlightColor="'#e53935'"
+      :primaryColor="'#FF9800'"
+      :primaryHoverColor="'#F57C00'"
+      :highlightColor="'#FF9800'"
       :skip-enabled="true"
       @complete="onGuideComplete"
       @skip="onGuideSkip"
@@ -70,35 +80,35 @@ export default {
       guideTheme: 'dark',
       guideSteps: [
         {
-          target: '.plus_guide',
-          title: 'First Step',
-          content: 'Click the + button to add a new page to your project',
+          target: '.increment_btn',
+          title: 'Increase the counter',
+          content: 'Click Increment to add 1 to the counter value.',
           position: 'bottom'
         },
         {
-          target: '.create-page-dialog',
-          title: 'Second Step',
-          content: 'Create a new page for your project here',
+          target: '.count-display',
+          title: 'Current value',
+          content: 'This number updates every time you click Increment.',
           position: 'right'
         },
         {
-          target: '.import_guide',
-          title: 'Third Step',
-          content: 'Click Import to bring a page into your project',
+          target: '.reset_btn',
+          title: 'Reset to zero',
+          content: 'Click Reset to set the counter back to 0.',
           position: 'right'
         }
-      ]
+      ],
+
+      count: 0
     }
   },
   methods: {
     onGuideComplete() { /* ... */ },
     onGuideSkip() { /* ... */ },
-    onGuideStepChange(index) {
-      if (index === 1) {
-        // Open your dialog as the second step begins
-        this.$emit('open-create-dialog')
-      }
-    }
+    onGuideStepChange() { /* No dynamic changes needed for this demo */ },
+
+    increment() { this.count += 1 },
+    resetCounter() { this.count = 0 }
   }
 }
 </script>
@@ -159,15 +169,45 @@ Example:
 <longze-guide @step-change="handleStep" @skip="onSkip" @complete="onDone" />
 ```
 
+### Handling step changes with `onGuideStepChange`
+
+Use the `index` from the `@step-change` event to coordinate UI changes. The example below shows routing different steps to dedicated methods. If you need to run logic after the very last step, use `onGuideComplete` instead of relying on `index`.
+
+```js
+onGuideStepChange(index) {
+  if (index === 1) {
+    this.test1();
+  }
+  else if (index === 2) {
+    this.test2();
+  }
+  else if (index === 3) {
+    this.test3();
+  }
+  else if (index === 4) {
+    this.test4();
+  }
+  else if (index === 5) {
+    this.test5();
+  }
+  // For the final step, use onGuideComplete instead of index === 6
+},
+
+onGuideComplete() {
+  // Trigger logic for the final step here
+  this.test6();
+}
+```
+
 ## Theming
 
 Use props to change colors. Example:
 
 ```vue
 <longze-guide
-  :primaryColor="'#3f51b5'"
-  :primaryHoverColor="'#32408f'"
-  :highlightColor="'#3f51b5'"
+  :primaryColor="'#FF9800'"
+  :primaryHoverColor="'#F57C00'"
+  :highlightColor="'#FF9800'"
 />
 ```
 

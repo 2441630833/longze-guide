@@ -1,63 +1,63 @@
 <template>
-  <view class="longze-guide" :class="[theme]" :style="cssVars">
-    <view v-if="visible" class="guide-container">
+  <div class="longze-guide" :class="[theme]" :style="cssVars">
+    <div v-if="visible" class="guide-container">
       <!-- Mask layer -->
-      <view v-if="theme === 'dark'" class="mask-layer">
-        <view class="mask-top" :style="{
+      <div v-if="theme === 'dark'" class="mask-layer">
+        <div class="mask-top" :style="{
           left: '0',
           top: '0',
           right: '0',
           height: targetPosition.top + 'px'
-        }"></view>
-        <view class="mask-right" :style="{
+        }"></div>
+        <div class="mask-right" :style="{
           left: (targetPosition.left + targetPosition.width) + 'px',
           top: targetPosition.top + 'px',
           right: '0',
           height: targetPosition.height + 'px'
-        }"></view>
-        <view class="mask-bottom" :style="{
+        }"></div>
+        <div class="mask-bottom" :style="{
           left: '0',
           top: (targetPosition.top + targetPosition.height) + 'px',
           right: '0',
           bottom: '0'
-        }"></view>
-        <view class="mask-left" :style="{
+        }"></div>
+        <div class="mask-left" :style="{
           left: '0',
           top: targetPosition.top + 'px',
           width: targetPosition.left + 'px',
           height: targetPosition.height + 'px'
-        }"></view>
-      </view>
+        }"></div>
+      </div>
       
       <!-- Highlight border -->
-      <view class="highlight-border" :style="{
+      <div class="highlight-border" :style="{
         left: targetPosition.left + 'px',
         top: targetPosition.top + 'px',
         width: targetPosition.width + 'px',
         height: targetPosition.height + 'px'
-      }"></view>
+      }"></div>
       
       <!-- Guide box -->
-      <view class="guide-box" :style="guideBoxStyle" :class="[guideBoxClass]">
-        <view class="content">
-          <text class="title">{{ currentStep ? currentStep.title : '' }}</text>
-          <text class="description">{{ currentStep ? currentStep.content : '' }}</text>
-        </view>
+      <div class="guide-box" :style="guideBoxStyle" :class="[guideBoxClass]">
+        <div class="content">
+          <span class="title">{{ currentStep ? currentStep.title : '' }}</span>
+          <span class="description">{{ currentStep ? currentStep.content : '' }}</span>
+        </div>
         
-        <view class="actions">
+        <div class="actions">
           <button v-if="currentIndex > 0" class="btn-prev" @click="prevStep">Previous</button>
           <button v-if="skipEnabled" class="btn-skip" @click="skipGuide">Skip</button>
           <button class="btn-next" @click="nextStep">
             {{ isLastStep ? 'Done' : 'Next' }}
           </button>
-        </view>
+        </div>
         
-        <view class="step-indicator">
-          <text>{{ currentIndex + 1 }}/{{ steps.length }}</text>
-        </view>
-      </view>
-    </view>
-  </view>
+        <div class="step-indicator">
+          <span>{{ currentIndex + 1 }}/{{ steps.length }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

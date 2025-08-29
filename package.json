@@ -2,7 +2,7 @@
   "name": "longze-guide",
   "version": "0.1.0",
   "private": false,
-  "description": "A lightweight, flexible, and themeable in-app product tour/guide component for Vue 3.",
+  "description": "A lightweight, flexible, and themeable in-app product tour/guide component for Vue 2 and Vue 3.",
   "keywords": ["vue", "vue3", "tour", "guide", "onboarding", "tooltip"],
   "license": "MIT",
   "repository": {
