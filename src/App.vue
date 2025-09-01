@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import LongzeGuide from './components/longze-guide.vue'
+import LongzeGuide from 'longze-guide'
 
 export default {
   name: 'App',

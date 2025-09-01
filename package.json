@@ -1,9 +1,16 @@
 {
   "name": "longze-guide",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "description": "A lightweight, flexible, and themeable in-app product tour/guide component for Vue 2 and Vue 3.",
-  "keywords": ["vue", "vue3", "tour", "guide", "onboarding", "tooltip"],
+  "keywords": [
+    "vue",
+    "vue3",
+    "tour",
+    "guide",
+    "onboarding",
+    "tooltip"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -13,33 +20,27 @@
   "bugs": {
     "url": "https://github.com/2441630833/longze-guide/issues"
   },
-  "main": "dist/longze-guide.umd.js",
-  "module": "dist/longze-guide.esm.js",
-  "unpkg": "dist/longze-guide.umd.min.js",
+  "main": "src/components/longze-guide.vue",
+  "module": "src/components/longze-guide.vue",
   "exports": {
-    ".": {
-      "require": "./dist/longze-guide.umd.js",
-      "import": "./dist/longze-guide.esm.js"
-    }
+    ".": "./src/components/longze-guide.vue"
   },
   "files": [
-    "dist",
     "src/components/longze-guide.vue",
-    "src/index.js",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build:lib": "vue-cli-service build --target lib --name longze-guide src/index.js",
     "lint": "vue-cli-service lint"
   },
   "peerDependencies": {
     "vue": ">=3.2.0"
   },
   "dependencies": {
-    "core-js": "^3.8.3"
+    "core-js": "^3.8.3",
+    "longze-guide": "^0.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

@@ -2,6 +2,15 @@
 
 A lightweight, flexible, and themeable in-app product tour/guide component for Vue 2 and Vue 3.
 
+![Longze Guide Demo - Step 1](https://mp-0728a9df-3eac-4bd5-b496-e252db36b648.cdn.bspapp.com/longze-guide/image.png)
+*Step 1: Increment button highlighted with guide overlay*
+
+![Longze Guide Demo - Step 2](https://mp-0728a9df-3eac-4bd5-b496-e252db36b648.cdn.bspapp.com/longze-guide/image2.png)
+*Step 2: Counter display highlighted with guide overlay*
+
+![Longze Guide Demo - Step 3](https://mp-0728a9df-3eac-4bd5-b496-e252db36b648.cdn.bspapp.com/longze-guide/image3.png)
+*Step 3: Reset button highlighted with guide overlay*
+
 - **Zero dependency** and easy to drop into any Vue app
 - **Targets any element** using CSS selectors
 - **Smart positioning** to keep the tooltip in the viewport
